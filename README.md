@@ -4,7 +4,7 @@
 
 ### Background and Purpose
 
-Maria, a chief data scientist for a city school district, and her supervisor have been notified that the “students_complete.csv” file (a dataset) shows evidence of academic dishonesty. This is specific to the reading and math grades for Thomas High School ninth graders, which appear to have been altered.
+Maria, a chief data scientist for a city school district, and her supervisor have been notified that the “students_complete.csv” file shows evidence of academic dishonesty. This is specific to the reading and math grades for Thomas High School ninth graders, which appear to have been altered.
 
 The purpose of this analysis is to help Maria replace the math and reading scores for Thomas High School with NaNs (Not a Number) while keeping the rest of the data intact. Additionally, she has requested to use Python and the Pandas library to analyze school district data and showcase trends in school performance with the updated numbers. 
 
@@ -31,13 +31,23 @@ The software and web-based application used for this analysis are:
 
 * How is the district summary affected?
 
-The school district summary is a high-level snapshot of the district's key metrics: Total number of students, Total number of schools, Total budget, Average math score, Average reading score, Percentage of students who passed math, Percentage of students who passed reading and Overall passing percentage. Even after the reading and math scores for the ninth grade at Thomas High School were replaced with NaNs, the school district summary was affected with a slight negative change across the board, except for the Average Reading Score which stayed at 81.9.
+The school district summary is a high-level snapshot of the district's key metrics: 
+- Total number of schools
+- Total number of students
+- Total budget
+- Average math score
+- Average reading score
+- Percentage of students who passed math
+- Percentage of students who passed reading
+- Overall passing percentage
 
-Prior to replacing scores for the ninth grade at Thomas High School, the school district summary DataFrame was as follows:
+The school district summary was affected with a slight negative change across the board, except for the Average Reading Score which stayed at 81.9. This is even after the reading and math scores for the ninth grade at Thomas High School were replaced with NaNs. It should be clear that grades with NaNs are not a zero value, they are grades that simply are not considered in the sum or the averages for school performance purposes. 
+
+Prior to replacing scores for the ninth grade at Thomas High School, the school district summary DataFrame is as follows:
 
 ![district_summary_oldnumbers](Images/district_summary_oldnumbers.png)
 
-In comparison/contrast, the updated school district summary DataFrame is shown below:
+In comparison, the updated school district summary DataFrame is as follows:
 
 ![District_summary_new_total_student_count](Images/District_summary_new_total_student_count.png)
 
@@ -51,13 +61,23 @@ district_summary_df["Total Budget"] = district_summary_df["Total Budget"].map("$
 
 * How is the school summary affected?
 
-The school summary is a snapshot of each school in the district with key metrics such as School name, School type, Total students, Total school budget, Per student budget, Average math score, Average reading score, % passing math, % passing reading and % overall passing.
+The school summary is a snapshot of each school in the district with key metrics:
+- School name 
+- School type
+- Total students
+- Total school budget
+- Per student budget
+- Average math score
+- Average reading score
+- % passing math 
+- % passing reading  
+- % overall passing
 
-It was determined that math and reading grades of 461 students in the 9th grade at Thomas High School were not going to be considered for both the school district summary as well as the school summary. Therefore, only the math and reading grades of students in the 10th, 11th and 12th  grade were being calculated for Thomas High School instead to uphold state-testing standards.
+It was determined that math and reading grades for the 461 9th grade students at Thomas High School were not going to be considered for the school district summary or the school summary. Therefore, to uphold state-testing standards, the math and reading grades for only students in the 10th, 11th and 12th grades were being calculated for Thomas High School.
 
-To calculate passing scores, it is critical to keep in mind that for assessment tests, the passing score is 70, with the >= 70 statement to filter the grades (that are passing).
+To calculate passing scores, it is critical to keep in mind that for assessment tests, the passing score is 70, with the >= 70 statement to filter the grades. 
 
-For example, to calculate the overall passing percentage for the 10th to 12th grade at Thomas High School the total count of passing grades for math and reading was divided by the new total student count, which is 1,174, and then multiplying it by 100. The following code was used:
+For example, to calculate the overall passing percentage for the 10th to 12th grade students at Thomas High School, the total count of passing grades for math and reading was divided by the new total student count, which is 1,174, and then multiplying it by 100. The following code was used:
 
 ```
 ThomasHS_passing_mathreading = pd.DataFrame(student_data_df.loc[(student_data_df['school_name'] == 'Thomas High School') & (student_data_df["math_score"] >= 70) & (student_data_df["reading_score"] >= 70)])
@@ -89,7 +109,7 @@ top_schools = per_school_summary_df.sort_values(["% Overall Passing"], ascending
 top_schools.head(5)
 ```
 
-The top 5 highest performing schools DataFrame is shown as follows with Thomas High School highlighted in blue:
+The top 5 highest performing schools DataFrame is shown with Thomas High School highlighted in blue:
 
 ![ThomasHS_High_Performing_updatedmetrics](Images/ThomasHS_High_Performing_updatedmetrics.png)
 
@@ -105,7 +125,7 @@ As shown below, replacing the ninth-grade scores with NaN affected the grade rep
 
 **Scores by school spending**
 
-The school spending per student were sorted into four spending "bins," or ranges. The four bins are dollar amounts that range from the lowest amount ($578) to the highest amount ($655) a school spends on a student.
+The school spending per student were sorted into four spending "bins," or ranges. The four bins are dollar amounts that range from the lowest amount (<$584) to the highest amount ($675) a school spends on a student.
 
 ![spending_summary_df_perstudent.png](Images/spending_summary_df_perstudent.png)
 
@@ -129,32 +149,23 @@ The highest student population is 4,976, which is Bailey High School. By organiz
 
 ![Scores_THS_Size](Images/Scores_THS_Size.png)
 
-If we view the summary of scores by school size, we can quickly see how the school size greatly impacts the school scores. Schools smaller than 2,000 students are high performing schools as seen below:
+If we view the summary of scores by school size, we can quickly see how the school size greatly impacts the school performance. Schools smaller than 2,000 students are high performing schools as seen below:
 
 ![Scores_School_SizeSummary](Images/Scores_School_SizeSummary.png)
 
 **Scores by school type**
 
-The school data can also be view by school type, charter and district. The school type summary below shows that charter schools have higher scores across the board. Thomas High School is a Charter school that is a high performing school despite replacing the ninth-grade scores.
+The school data can also be viewed by school type, charter and district. The school type summary below shows that charter schools have higher scores across the board. Thomas High School is a charter school and a high performing school despite replacing the ninth-grade scores.
 
 ![SchoolType_summary](Images/SchoolType_summary.png)
 
-## Summary of the School District Analysis
+## Summary
 
-Summarize four changes in the updated school district analysis after reading and math scores for the ninth grade at Thomas High School have been replaced with NaNs.
+In summary, the math and reading grades of 461 students in the 9th grade at Thomas High School are not considered for either the school district summary or the school summary. These grades are replaced with NaN which affects the grade representation displayed for Thomas High School on the reading and math scores by grade DataFrames.
 
-In summary, 
-Based on the output, we determined that all of the columns we need to use for calculations are integers. Therefore, we won't need to change the data types for these columns. However, there may be instances in which it's necessary to change the data type. 
-If we do nothing, when we sum or take the averages of the reading and math scores, those NaNs will not be considered in the sum or the averages (just as they are not considered in the sum or the averages in an Excel file). In this situation, the missing values have no impact.
-Maria would like you to use Pandas to do a more thorough inspection of the datasets than you did when you opened them with Excel. Cleaning the data is essential because any missing, malformed, or incorrect data in the rows can jeopardize the analysis.
-The top five highest-performing schools based on the highest % Overall Passing are charter schools that have a low student population. 
-The five lowest-performing schools based on the lowest "% Overall Passing" are district schools that have a high student population.
-As stated earlier, this updated analysis will help the district officials determine how much money should be allocated to each school for the upcoming academic (school) year.
+It is important to emphasize that grades with NaNs are not a zero value, they are grades that simply are not considered in the sum or the averages for school performance purposes. These 461 students in the 9th grade at Thomas High School are only 1.17% of representation out of the 39,170 total number of students in the district analysis. As a result, the scores for Thomas High School were not highly impacted because grades of students in the 10th, 11th and 12th grade were being calculated for Thomas High School instead to uphold state-testing standards. On the same token, it is imperative to still consider those 461 students for other analyses, such as calculating the spending budget per student and school size range determination. 
 
-In summary, the election-audit successfully analyzed the election results for a US congressional voting district in Colorado using Python and Visual Studio Code. In general, Python code is easy to write, it can perform complex calculations quickly and can handle large data files. Visual Studio Code, or VS Code, allows you to write, edit, save and execute scripts. 
+Furthermore, using Pandas allows one to do a more thorough inspection of the datasets. Based on the output, it is determined the top five highest-performing schools, based on the highest % Overall Passing, are charter schools, which have a low student population. The five lowest-performing schools, based on the lowest % Overall Passing, are district schools that have a high student population. In general, charter schools have a limit of student admissions, while district schools typically do not have student admission limits.
 
-Congressional elections determine who represents your state in Congress and occur every two years. These midterm elections occur halfway between presidential elections and use the popular vote to choose winners.
+In conclusion, these insights are meant to guide discussion and strategic decisions at the school and district level. The updated analysis brings to light critical items for discussion, but most importantly it will assist the school board, the superintendent and stakeholders in making decisions regarding the school budgets and priorities for the upcoming academic year.
 
-The election commission can highly benefit from using software like Python and Visual Studio Code to automate the process of reporting results, especially when they must be run every two years. The Python script provided in this election-audit analysis can be easily used with a few adjustments for any election across the United States. 
-
-Lastly, Python is a powerful tool that allows programmers access, process, manipulate and store large data files. Organizations in many industries can take advantage of it to simplify and automate processes of repetitive calculations to boost efficiency.
