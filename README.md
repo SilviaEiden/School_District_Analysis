@@ -1,8 +1,8 @@
 # School District Analysis
 
-## Overview of the School District Analysis
+## Overview
 
-### Purpose
+### Background and Purpose
 
 Maria, a chief data scientist for a city school district, and her supervisor have been notified that the “students_complete.csv” file (a dataset) shows evidence of academic dishonesty. This is specific to the reading and math grades for Thomas High School ninth graders, which appear to have been altered.
 
@@ -12,9 +12,9 @@ These insights are used to inform discussion and strategic decisions at the scho
 
 ## Results
 
-### Data Source and Files
+### Datasets and Files
 
-The school district analysis is based on the following data sources/datasets: 
+The school district analysis is based on the following datasets: 
 * School Data: [schools_complete](Resources/schools_complete.csv)
 * Student Data: [students_complete](Resources/students_complete.csv)
 
@@ -30,17 +30,19 @@ The software and web-based application used for this analysis are:
 ### Outcomes 
 
 * How is the district summary affected?
-The school district summary is a high-level snapshot of the district's key metrics: Total number of students, Total number of schools, Total budget, Average math score, Average reading score, Percentage of students who passed math, Percentage of students who passed reading and Overall passing percentage.
-Even after the reading and math scores for the ninth grade at Thomas High School were replaced with NaNs, the school district summary was affected with a slight negative change across the board, except for the Average Reading Score which stayed at 81.9.
+
+The school district summary is a high-level snapshot of the district's key metrics: Total number of students, Total number of schools, Total budget, Average math score, Average reading score, Percentage of students who passed math, Percentage of students who passed reading and Overall passing percentage. Even after the reading and math scores for the ninth grade at Thomas High School were replaced with NaNs, the school district summary was affected with a slight negative change across the board, except for the Average Reading Score which stayed at 81.9.
+
 Prior to replacing scores for the ninth grade at Thomas High School, the school district summary DataFrame was as follows:
 
-![district_summary_oldnumbers](district_summary_oldnumbers.png)
+![district_summary_oldnumbers](Images/district_summary_oldnumbers.png)
 
 In comparison/contrast, the updated school district summary DataFrame is shown below:
 
-![District_summary_new_total_student_count](District_summary_new_total_student_count.png)
+![District_summary_new_total_student_count](Images/District_summary_new_total_student_count.png)
 
 By chaining the **map()** and **format() functions** I was able to clean up the DataFrame and represent data appropriately, such as with a U.S. dollar sign, two decimal places and a thousands separator. This will make the data look cleaner and professional. 
+
 This line of code was used to format the "Total Budget" column in the school district summary DataFrame:
 
 ```
@@ -48,6 +50,7 @@ district_summary_df["Total Budget"] = district_summary_df["Total Budget"].map("$
 ```
 
 * How is the school summary affected?
+
 The school summary is a snapshot of each school in the district with key metrics such as School name, School type, Total students, Total school budget, Per student budget, Average math score, Average reading score, % passing math, % passing reading and % overall passing.
 
 It was determined that math and reading grades of 461 students in the 9th grade at Thomas High School were not going to be considered for both the school district summary as well as the school summary. Therefore, only the math and reading grades of students in the 10th, 11th and 12th  grade were being calculated for Thomas High School instead to uphold state-testing standards.
@@ -58,8 +61,11 @@ For example, to calculate the overall passing percentage for the 10th to 12th gr
 
 ```
 ThomasHS_passing_mathreading = pd.DataFrame(student_data_df.loc[(student_data_df['school_name'] == 'Thomas High School') & (student_data_df["math_score"] >= 70) & (student_data_df["reading_score"] >= 70)])
+
 ThomasHS_overallpassing_mathreading_percentage = ThomasHS_passing_mathreading.count()["student_name"] / ten_eleven_twelve_count * 100
+
 ThomasHS_overallpassing_mathreading_percentage
+
 90.63032367972743
 ```
 
@@ -71,9 +77,11 @@ per_school_summary_df
 ```
 
 The updated school summary DataFrame for Thomas High School is highlighted in blue as shown below:
-![per_school_summary_new ](per_school_summary_new.png)
+
+![per_school_summary_new ](Images/per_school_summary_new.png)
 
 * How does replacing the ninth graders’ math and reading scores affect Thomas High School’s performance relative to the other schools?
+
 The average scores with the new calculation were not significantly affected by the removal of the 9th grade scores. In fact, Thomas High School had an overall passing rate of 90.63%, which kept them in second place of the top 5 highest performing schools, which are based on the overall percentage of passing students. To show the top five schools based on the overall passing rate the following code was used:
 
 ```
@@ -83,33 +91,33 @@ top_schools.head(5)
 
 The top 5 highest performing schools DataFrame is shown as follows with Thomas High School highlighted in blue:
 
-![ThomasHS_High_Performing_updatedmetrics](ThomasHS_High_Performing_updatedmetrics.png)
+![ThomasHS_High_Performing_updatedmetrics](Images/ThomasHS_High_Performing_updatedmetrics.png)
 
 * How does replacing the ninth-grade scores affect the following:
 
-•	Math and reading scores by grade
+**Math and reading scores by grade**
 
 As shown below, replacing the ninth-grade scores with NaN affected the grade representation displayed for Thomas High School in both DataFrames of the math and reading scores by grade, respectively. 
 
-![math_scores_by_grade_updated](math_scores_by_grade_updated.png)
+![math_scores_by_grade_updated](Images/math_scores_by_grade_updated.png)
 
-![reading_scores_by_grade_updated](reading_scores_by_grade_updated.png)
+![reading_scores_by_grade_updated](Images/reading_scores_by_grade_updated.png)
 
-•	Scores by school spending
+**Scores by school spending**
 
 The school spending per student were sorted into four spending "bins," or ranges. The four bins are dollar amounts that range from the lowest amount ($578) to the highest amount ($655) a school spends on a student.
 
-![spending_summary_df_perstudent.png](spending_summary_df_perstudent.png)
+![spending_summary_df_perstudent.png](Images/spending_summary_df_perstudent.png)
 
 As shown in the DataFrame below, the Thomas High School is in the spending ranges of "$630-644" per student, a healthy spending budget per student. In this instance, replacing the ninth-grade scores had a minimal effect to the spending range.
 
-![ThomasHS_summary_spending](ThomasHS_summary_spending.png)
+![ThomasHS_summary_spending](Images/ThomasHS_summary_spending.png)
 
 The DataFrame below lists all schools in the district with its respective spending range per student. Despite some schools counting with a healthy spending budget per student it does not necessarily equate to a top performing school.
  
-![per_school_summary_SPENDING](per_school_summary_SPENDING.png)
+![per_school_summary_SPENDING](Images/per_school_summary_SPENDING.png)
 
-•	Scores by school size
+**Scores by school size**
 
 In this analysis, schools were grouped into three bins: small, medium, and large. The school size bins are as follows:
 
@@ -119,21 +127,22 @@ In this analysis, schools were grouped into three bins: small, medium, and large
 
 The highest student population is 4,976, which is Bailey High School. By organizing the total number of students per school into these size bins we can state that Thomas High School is in the "Medium (1000-2000)" size bucket. 
 
-![Scores_THS_Size](Scores_THS_Size.png)
+![Scores_THS_Size](Images/Scores_THS_Size.png)
 
 If we view the summary of scores by school size, we can quickly see how the school size greatly impacts the school scores. Schools smaller than 2,000 students are high performing schools as seen below:
 
-![Scores_School_SizeSummary](Scores_School_SizeSummary.png)
+![Scores_School_SizeSummary](Images/Scores_School_SizeSummary.png)
 
-•	Scores by school type
+**Scores by school type**
 
 The school data can also be view by school type, charter and district. The school type summary below shows that charter schools have higher scores across the board. Thomas High School is a Charter school that is a high performing school despite replacing the ninth-grade scores.
 
-![SchoolType_summary](SchoolType_summary.png)
+![SchoolType_summary](Images/SchoolType_summary.png)
 
 ## Summary of the School District Analysis
 
 Summarize four changes in the updated school district analysis after reading and math scores for the ninth grade at Thomas High School have been replaced with NaNs.
+
 In summary, 
 Based on the output, we determined that all of the columns we need to use for calculations are integers. Therefore, we won't need to change the data types for these columns. However, there may be instances in which it's necessary to change the data type. 
 If we do nothing, when we sum or take the averages of the reading and math scores, those NaNs will not be considered in the sum or the averages (just as they are not considered in the sum or the averages in an Excel file). In this situation, the missing values have no impact.
